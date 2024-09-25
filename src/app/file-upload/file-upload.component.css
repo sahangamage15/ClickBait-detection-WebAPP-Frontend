@@ -1,0 +1,103 @@
+.upload-section {
+  text-align: center;
+  margin: 20px 0;
+}
+/* Card styling for the order list */
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.align-items-start {
+  align-items: flex-start; /* Ensure that all items are aligned to the left */
+}
+
+.gap-2 {
+  gap: 10px;
+}
+
+.gap-3 {
+  gap: 15px;
+}
+
+.p-2 {
+  padding: 10px;
+}
+
+/* Styling for the preview header */
+h5 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: left; /* Align header text to the left */
+}
+
+/* Order List item styling */
+span.font-bold {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #007ad9; /* Customize the color for topic */
+  text-align: left; /* Align topic text to the left */
+}
+
+span {
+  font-size: 1rem;
+  color: #555;
+  text-align: left; /* Align paragraph text to the left */
+}
+
+/* Container for each list item */
+.p-orderList-item {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  text-align: left; /* Align all content within the item to the left */
+}
+
+/* Add hover effect */
+.p-orderList-item:hover {
+  background-color: #e8f5ff;
+  border-color: #007ad9;
+}
+
+.listStyle {
+  max-height: 25rem;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+/* Responsive Design for small screens */
+@media (max-width: 768px) {
+  .flex {
+    flex-direction: column;
+  }
+
+  .p-2 {
+    padding: 15px;
+  }
+
+  h5 {
+    font-size: 1.2rem;
+    text-align: left; /* Ensure left alignment on smaller screens */
+  }
+
+  span.font-bold {
+    font-size: 1rem;
+    text-align: left; /* Ensure left alignment on smaller screens */
+  }
+}

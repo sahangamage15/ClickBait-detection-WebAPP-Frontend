@@ -3,9 +3,19 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Clickbait-detection-webapp-frontend": {
+    "my-angular-app": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -13,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/clickbait-detection-webapp-frontend",
+            "outputPath": "dist/my-angular-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -27,6 +37,9 @@
               }
             ],
             "styles": [
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
               "src/styles.css"
             ],
             "scripts": [],
@@ -64,10 +77,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Clickbait-detection-webapp-frontend:build:production"
+              "buildTarget": "my-angular-app:build:production"
             },
             "development": {
-              "buildTarget": "Clickbait-detection-webapp-frontend:build:development"
+              "buildTarget": "my-angular-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -97,8 +110,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": "3f4ebdbc-5fca-472a-ace2-0440c93be4a5"
   }
 }
