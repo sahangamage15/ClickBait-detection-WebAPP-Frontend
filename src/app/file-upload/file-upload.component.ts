@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component  , OnInit } from '@angular/core';
 import { PrimeNGConfig, MessageService } from 'primeng/api';
 
 @Component({
@@ -6,7 +6,7 @@ import { PrimeNGConfig, MessageService } from 'primeng/api';
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.css']
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit{
   files: File[] = [];
   totalSize: number = 0;
   totalSizePercent: number = 0;
@@ -30,6 +30,7 @@ export class FileUploadComponent {
     clear();
     this.totalSize = 0;
     this.totalSizePercent = 0;
+    localStorage.removeItem('uploadedFiles');  // Clear saved files from localStorage
   }
 
   // Display toast notification after successful upload
@@ -37,7 +38,6 @@ export class FileUploadComponent {
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
   }
 
-  // Handle file selection and parse JSON if applicable
   // Handle file selection and parse JSON if applicable
   onSelectedFiles(event: any) {
     this.files = event.currentFiles as File[];
@@ -51,20 +51,29 @@ export class FileUploadComponent {
       if (file.type === 'application/json') {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          console.log(e.target.result);
-          try {
+          const base64File = e.target.result;
+            // Store the file data (you may want to save more details like name and type)
+          const storedFiles = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+          storedFiles.push({
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            content: base64File
+          });
+          
+          localStorage.setItem('uploadedFiles', JSON.stringify(storedFiles));
+          
+            try {
+              const jsonData = JSON.parse(e.target.result); 
+              // Adjust for your JSON structure: extract 'original_topic' and 'original_paragraphs'
+              this.data = jsonData.map((item: any) => ({
+                topic: item.original_topic,
+                paragraph: item.original_paragraphs  // assuming this is a string, not an array
+              }));
 
-            const jsonData = JSON.parse(e.target.result);
-
-            // Adjust for your JSON structure: extract 'original_topic' and 'original_paragraphs'
-            this.data = jsonData.map((item: any) => ({
-              topic: item.original_topic,
-              paragraph: item.original_paragraphs  // assuming this is a string, not an array
-            }));
-
-          } catch (error) {
-            console.error('Invalid JSON format', error);
-          }
+            } catch (error) {
+              console.error('Invalid JSON format', error);
+            }
         };
         reader.readAsText(file);
       }
@@ -91,4 +100,35 @@ export class FileUploadComponent {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
   }
+
+  ngOnInit() {
+    // Restore previously uploaded files from localStorage
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const storedFiles = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+      console.log(storedFiles);
+
+      this.files = storedFiles.map((storedFile: any) => {
+        const blob = this.base64ToBlob(storedFile.content, storedFile.type);
+        return new File([blob], storedFile.name, { type: storedFile.type });
+      });
+
+      // Update the total size and percentage
+      this.totalSize = this.files.reduce((acc, file) => acc + file.size, 0);
+      this.totalSizePercent = this.totalSize / 10;
+    }
+  }
+  
+  // Helper function to convert Base64 to Blob
+  base64ToBlob(base64: string, type: string) {
+    const byteString = atob(base64.split(',')[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+  
+    for (let i = 0; i < byteString.length; i++) {
+      uint8Array[i] = byteString.charCodeAt(i);
+    }
+  
+    return new Blob([uint8Array], { type });
+  }
+  
 }
