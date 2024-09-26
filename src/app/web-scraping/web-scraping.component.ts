@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './web-scraping.component.css'
 })
 export class WebScrapingComponent {
-
+  data: { topic: string, paragraph: string[] }[] = [];
 }

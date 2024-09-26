@@ -5,13 +5,31 @@
 
   <p-accordion>
     <p-accordionTab header="Relevant List">
-      <!-- Add relevant content here -->
-      Relevant content goes here.
+      <!-- Order List to display topics and paragraphs from uploaded JSON -->
+      <p-orderList [value]="data" [listStyle]="{ height: '25rem' }">
+        <ng-template let-data pTemplate="item">
+          <div class="flex flex-wrap p-2 align-items-center gap-3">
+            <div class="flex-1 flex flex-column gap-2">
+              <span class="font-bold">{{ data.topic }}</span>  <!-- Display topic -->
+              <span>{{ data.paragraph }}</span>  <!-- Display paragraph -->
+            </div>
+          </div>
+        </ng-template>
+      </p-orderList>
     </p-accordionTab>
 
     <p-accordionTab header="Irrelevant List">
-      <!-- Add irrelevant content here -->
-      Irrelevant content goes here.
+      <!-- Order List to display topics and paragraphs from uploaded JSON -->
+      <p-orderList [value]="data" [listStyle]="{ height: '25rem' }">
+        <ng-template let-data pTemplate="item">
+          <div class="flex flex-wrap p-2 align-items-center gap-3">
+            <div class="flex-1 flex flex-column gap-2">
+              <span class="font-bold">{{ data.topic }}</span>  <!-- Display topic -->
+              <span>{{ data.paragraph }}</span>  <!-- Display paragraph -->
+            </div>
+          </div>
+        </ng-template>
+      </p-orderList>
     </p-accordionTab>
   </p-accordion>
 
