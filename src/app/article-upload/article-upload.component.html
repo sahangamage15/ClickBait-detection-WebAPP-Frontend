@@ -1,1 +1,50 @@
-<p>article-upload works!</p>
+<div class="container" style="display: flex;">
+  <!-- Left-hand side -->
+  <div style="flex: 1; padding-right: 20px; border-right: 1px solid #ccc;">
+   <app-topics-upload></app-topics-upload>
+
+    <p-button label="Process" icon="pi pi-check" class="p-button-rounded p-button-primary"></p-button>
+
+    <p-accordion>
+      <p-accordionTab header="Relevant List">
+        <!-- Order List to display topics and paragraphs from uploaded JSON -->
+        <p-orderList [value]="data" [listStyle]="{ height: '25rem' }">
+          <ng-template let-data pTemplate="item">
+            <div class="flex flex-wrap p-2 align-items-center gap-3">
+              <div class="flex-1 flex flex-column gap-2">
+                <span>{{ data.topic }}</span>  <!-- Display paragraph -->
+              </div>
+            </div>
+          </ng-template>
+        </p-orderList>
+      </p-accordionTab>
+
+      <p-accordionTab header="Irrelevant List">
+        <!-- Order List to display topics and paragraphs from uploaded JSON -->
+        <p-orderList [value]="data" [listStyle]="{ height: '25rem' }">
+          <ng-template let-data pTemplate="item">
+            <div class="flex flex-wrap p-2 align-items-center gap-3">
+              <div class="flex-1 flex flex-column gap-2">
+                <span>{{ data.topic }}</span>  <!-- Display paragraph -->
+              </div>
+            </div>
+          </ng-template>
+        </p-orderList>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+  <!-- Right-hand side -->
+  <div style="flex: 0.3; padding-left: 20px;">
+    <p-floatLabel>
+      <input pInputText id="Enter Topic" [(ngModel)]="value" />
+      <label>Enter Topic</label>
+    </p-floatLabel>
+
+    <p-button label="Process" icon="pi pi-check" class="p-button-rounded p-button-primary"></p-button>
+    <p-messages
+      [(value)]="messages"
+      [enableService]="false"
+      [closable]="false" />
+  </div>
+</div>

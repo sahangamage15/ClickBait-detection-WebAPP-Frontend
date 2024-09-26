@@ -1,21 +1,21 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { PrimeNGConfig, MessageService } from 'primeng/api';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-file-upload',
-  templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.css']
+  selector: 'app-topics-upload',
+  templateUrl: './topics-upload.component.html',
+  styleUrls: ['./topics-upload.component.css']
 })
-export class FileUploadComponent {
+export class TopicsUploadComponent {
   // Define an output property
   @Output() dataUploaded: EventEmitter<any> = new EventEmitter();
   files: File[] = [];
   totalSize: number = 0;
   formData: FormData = new FormData();  // Initialize formData
   totalSizePercent: number = 0;
-  data: { topic: string, paragraph: string[] }[] = [];  // Array to hold parsed JSON data (topics and paragraphs)
-  apiUrl: string = 'http://127.0.0.1:8000/clickbait-detection/batch-title-detection'; // API endpoint URL
+  topics: string[] = [];  // Array to hold topics extracted from JSON
+  apiUrl: string = 'http://127.0.0.1:8000/clickbait-detection/titles-only-detection'; // API endpoint URL
 
   constructor(private config: PrimeNGConfig, private messageService: MessageService, private http: HttpClient) {}
 
@@ -51,6 +51,7 @@ export class FileUploadComponent {
     // Clear previous total size and reset percentage
     this.totalSize = 0;
     this.totalSizePercent = 0;
+    this.topics = [];  // Clear previous topics
 
     this.files.forEach((file) => {
       this.totalSize += file.size;
@@ -59,11 +60,9 @@ export class FileUploadComponent {
         reader.onload = (e: any) => {
           try {
             const jsonData = JSON.parse(e.target.result);
-            // Adjust for your JSON structure: extract 'original_topic' and 'original_paragraphs'
-            this.data = jsonData.map((item: any) => ({
-              topic: item.original_topic,
-              paragraph: item.original_paragraphs // assuming this is a string, not an array
-            }));
+            // Extract all topics from the JSON file and add to topics array
+            this.topics = jsonData.map((item: any) => item.original_topic);
+            console.log('Extracted Topics:', this.topics);
           } catch (error) {
             console.error('Invalid JSON format', error);
           }
@@ -78,25 +77,29 @@ export class FileUploadComponent {
     this.updateTotalSizePercent();
   }
 
-  // Method to post the file directly to the backend
-  uploadFile(formData: FormData) {
-    this.http.post(this.apiUrl, formData).subscribe({
+  // Method to post the topics array directly to the backend
+  uploadFile() {
+    const payload = {
+      titles: this.topics // Make sure this matches the Titles model in FastAPI
+    };
+
+    this.http.post(this.apiUrl, payload).subscribe({
       next: (response) => {
-        console.log('File uploaded successfully:', response);
+        console.log('Topics uploaded successfully:', response);
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'File uploaded successfully',
+          detail: 'Topics uploaded successfully',
           life: 3000,
         });
         this.dataUploaded.emit(response);
       },
       error: (error) => {
-        console.error('Error uploading file:', error);
+        console.error('Error uploading topics:', error);
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'File upload failed',
+          detail: 'Topics upload failed',
           life: 3000,
         });
       }
@@ -104,8 +107,8 @@ export class FileUploadComponent {
   }
 
   uploadEvent(callback: Function) {
-    // Post the file to the backend
-    this.uploadFile(this.formData);
+    // Post the topics to the backend
+    this.uploadFile();
     callback();
   }
 
