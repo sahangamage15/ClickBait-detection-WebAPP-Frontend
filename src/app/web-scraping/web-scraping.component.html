@@ -1,33 +1,31 @@
+<!-- web-scraping.component.html -->
 <div class="container">
-  <app-file-upload></app-file-upload>
+  <!-- FileUploadComponent triggers the upload and emits the dataUploaded event -->
+  <app-file-upload (dataUploaded)="handleDataUpload($event)"></app-file-upload>
 
-  <p-button label="Process" icon="pi pi-check" class="p-button-rounded p-button-primary custom-margin-bottom" ></p-button>
-</div>
-
-<div class="container">
   <p-accordion>
+    <!-- Relevant Data List -->
     <p-accordionTab header="Relevant List">
-      <!-- Order List to display topics and paragraphs from uploaded JSON -->
-      <p-orderList [value]="data" [listStyle]="{ height: '25rem' }">
-        <ng-template let-data pTemplate="item">
+      <p-orderList [value]="relevantData" [listStyle]="{ height: '25rem' }">
+        <ng-template let-item pTemplate="item">
           <div class="flex flex-wrap p-2 align-items-center gap-3">
             <div class="flex-1 flex flex-column gap-2">
-              <span class="font-bold">{{ data.topic }}</span>  <!-- Display topic -->
-              <span>{{ data.paragraph }}</span>  <!-- Display paragraph -->
+              <span class="font-bold">{{ item.topic }}</span>
+              <span>{{ item.paragraph }}</span>
             </div>
           </div>
         </ng-template>
       </p-orderList>
     </p-accordionTab>
 
+    <!-- Irrelevant Data List -->
     <p-accordionTab header="Irrelevant List">
-      <!-- Order List to display topics and paragraphs from uploaded JSON -->
-      <p-orderList [value]="data" [listStyle]="{ height: '25rem' }">
-        <ng-template let-data pTemplate="item">
+      <p-orderList [value]="irrelevantData" [listStyle]="{ height: '25rem' }">
+        <ng-template let-item pTemplate="item">
           <div class="flex flex-wrap p-2 align-items-center gap-3">
             <div class="flex-1 flex flex-column gap-2">
-              <span class="font-bold">{{ data.topic }}</span>  <!-- Display topic -->
-              <span>{{ data.paragraph }}</span>  <!-- Display paragraph -->
+              <span class="font-bold">{{ item.topic }}</span>
+              <span>{{ item.paragraph }}</span>
             </div>
           </div>
         </ng-template>

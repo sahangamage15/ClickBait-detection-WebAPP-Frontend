@@ -20,6 +20,11 @@ import {BadgeModule} from "primeng/badge";
 import { WebScrapingComponent } from './web-scraping/web-scraping.component';
 import { ArticleUploadComponent } from './article-upload/article-upload.component';
 import {OrderListModule} from "primeng/orderlist";
+import {DividerModule} from "primeng/divider";
+import {FloatLabelModule} from "primeng/floatlabel";
+import {ChipsModule} from "primeng/chips";
+import {FormsModule} from "@angular/forms";
+import { TopicsUploadComponent } from './topics-upload/topics-upload.component';
 
 const routes: Routes = [
   { path: 'web-scraping', component: WebScrapingComponent },
@@ -29,7 +34,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FileUploadComponent, WebScrapingComponent, ArticleUploadComponent],
+  declarations: [AppComponent, NavbarComponent, FileUploadComponent, WebScrapingComponent, ArticleUploadComponent, TopicsUploadComponent],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
@@ -45,7 +50,11 @@ const routes: Routes = [
     ToastModule,
     RouterModule,
     BadgeModule,
-    OrderListModule
+    OrderListModule,
+    DividerModule,
+    FloatLabelModule,
+    ChipsModule,
+    FormsModule
   ],
   providers: [
     provideHttpClient(withFetch()) // Enables fetch API for HttpClient
