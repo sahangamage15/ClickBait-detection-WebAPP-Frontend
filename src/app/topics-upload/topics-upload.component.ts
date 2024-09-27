@@ -155,4 +155,9 @@ export class TopicsUploadComponent {
       this.updateTotalSizePercent();
     }
   }
+
+  uploadEventBtn() {
+    // Post the file to the backend
+    this.uploadFile();
+  }
 }

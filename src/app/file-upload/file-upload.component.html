@@ -57,6 +57,7 @@
       </div>
     </ng-template>
   </p-fileUpload>
+  
 
   <!-- Order List to display topics and paragraphs from uploaded JSON -->
   <p-orderList [value]="data" [listStyle]="{ height: '25rem' }" header="Preview">
@@ -69,4 +70,7 @@
       </div>
     </ng-template>
   </p-orderList>
+  <div class="container">
+    <p-button label="Process" icon="pi pi-check" class="p-button-rounded p-button-primary custom-margin-bottom" (onClick)="uploadEventBtn()" ></p-button>
+  </div>
 </div>

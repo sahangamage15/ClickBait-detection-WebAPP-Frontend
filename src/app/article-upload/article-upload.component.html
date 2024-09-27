@@ -1,12 +1,7 @@
-<div class="container" style="display: flex;">
+<div class="container" style="display: flex; height: 100vh;">
   <!-- Left-hand side -->
-  <div style="flex: 1; padding-right: 20px; border-right: 1px solid #ccc;">
-   <app-topics-upload (dataUploaded)="handleDataUpload($event)"></app-topics-upload>
-
-  <div style="flex: 1; padding-right: 20px; border-right: 1px solid #ccc; font-weight: bold; font-size: 18px;">
-   <app-topics-upload></app-topics-upload>
-    
-    <p-button label="Process" icon="pi pi-check" class="p-button-rounded p-button-primary"></p-button>
+  <div style="flex: 1; padding-right: 20px; border-right: 1px solid #ccc; overflow-y: auto;">
+    <app-topics-upload (dataUploaded)="handleDataUpload($event)"></app-topics-upload>
 
     <p-accordion>
       <!-- Relevant Data List -->
@@ -35,5 +30,26 @@
         </p-orderList>
       </p-accordionTab>
     </p-accordion>
-
   </div>
+
+  <!-- Right-hand side -->
+  <div style="flex: 0.3; padding-left: 20px; overflow-y: auto;">
+    <p-floatLabel>
+      <input pInputText id="Enter Topic" [(ngModel)]="value" />
+      <label>Enter Topic</label>
+    </p-floatLabel>
+
+    <div class="container">
+      <p-button label="Process" icon="pi pi-check" class="p-button-rounded p-button-primary" (onClick)="processTopic()"></p-button>
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success mt-3">
+      <i class="fa fa-check-circle"></i> {{ successMessage }}
+    </div>
+  
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      <i class="fa fa-times-circle"></i> {{ errorMessage }}
+    </div>
+    
+  </div>
+</div>
