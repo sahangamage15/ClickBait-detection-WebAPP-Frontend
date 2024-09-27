@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+// import { PrimeNGConfig, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-article-upload',
@@ -8,3 +9,4 @@ import { Component } from '@angular/core';
 export class ArticleUploadComponent {
 
 }
+
