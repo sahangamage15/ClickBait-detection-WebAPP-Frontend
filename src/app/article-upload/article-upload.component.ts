@@ -19,10 +19,10 @@ export class ArticleUploadComponent {
   value: string | undefined;
 
   @Output() dataUploaded: EventEmitter<any> = new EventEmitter();
-  
+
   relevantData: DataItem[] = [];
   irrelevantData: DataItem[] = [];
-  
+
   topics: string[] = []; // Array to hold topics for processing
   topic: string = '';  // Single topic to be sent to backend
 
@@ -33,29 +33,23 @@ export class ArticleUploadComponent {
   errorMessage: string = '';   // Error message placeholder
 
   constructor(
-    private config: PrimeNGConfig, 
-    private messageService: MessageService, 
+    private config: PrimeNGConfig,
+    private messageService: MessageService,
     private http: HttpClient
   ) {}
 
   // Method to handle data upload and separate relevant/irrelevant data
   handleDataUpload(data: any) {
-    // Assuming data contains a list of articles with a clickbait flag
+    // Assuming the data structure contains clickbait_flag
     console.log(data.data);
-
-    // Filter and map relevant data (where clickbait_flag is true)
     this.relevantData = data.data.filter((item: any) => item.clickbait_flag).map((item: any) => ({
-      topic: item.topic,
-      paragraph: item.paragraph,
+      topic: item.topic
     }));
-    console.log("Relevant Data", this.relevantData);
-
-    // Filter and map irrelevant data (where clickbait_flag is false)
+    console.log("this.relevantData", this.relevantData);
     this.irrelevantData = data.data.filter((item: any) => !item.clickbait_flag).map((item: any) => ({
-      topic: item.topic,
-      paragraph: item.paragraph,
+      topic: item.title
     }));
-    console.log("Irrelevant Data", this.irrelevantData);
+    console.log("this.irrelevantData", this.irrelevantData);
   }
 
   // Method to send a topic to the backend and get a response

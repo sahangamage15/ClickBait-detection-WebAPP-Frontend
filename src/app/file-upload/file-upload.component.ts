@@ -19,12 +19,12 @@ export class FileUploadComponent {
 
   constructor(private config: PrimeNGConfig, private messageService: MessageService, private http: HttpClient) {}
 
-  choose(event: Event, callback: Function) {
+  choose(event: MouseEvent, callback: Function) {
     callback();
   }
 
   // Handle file removal logic
-  onRemoveTemplatingFile(event: Event, file: any, removeFileCallback: Function, index: number) {
+  onRemoveTemplatingFile(event: MouseEvent, file: any, removeFileCallback: Function, index: number) {
     removeFileCallback(event, index);
     this.totalSize -= file.size;
     this.updateTotalSizePercent();
